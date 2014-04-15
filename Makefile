@@ -5,23 +5,9 @@
 #              #
 ################
 
-# settable configuration
-
-
-# environment configuration
-
 all: package
 
-deps:
-	@echo "Installing Python dependencies..."
-	@-bin/pip install -r requirements.txt
-
-.Python:
-	@echo "Setting up virtual environment..."
-	@-virtualenv .
-
-	@-$(MAKE) deps
-
+## == top-level commands == ##
 test:
 	@-nosetests --verbose --with-coverage --cover-package=moments test_moments
 
@@ -40,3 +26,25 @@ install: package
 	@echo "Installing Yapa-Moments..."
 	@-bin/python setup.py install
 
+## == deps and virtualenv == ##
+deps:
+	@echo "Installing Python dependencies..."
+	@-bin/pip install -r requirements.txt
+
+.Python:
+	@echo "Setting up virtual environment..."
+	@-virtualenv .
+
+	@-$(MAKE) deps
+
+## == cleaning routines == ##
+clean:
+	@echo "Cleaning virtual environment..."
+	@-rm -fr bin/ include/ lib/ .Python moments.egg-info
+
+distclean: clean
+	@echo "Cleaning untracked files..."
+	@-git clean -xdf
+
+	@echo "Resetting codebase..."
+	@-git reset --hard
