@@ -27,15 +27,27 @@ install: package
 	@-bin/python setup.py install
 
 ## == deps and virtualenv == ##
-deps:
+deps: .Python resources/ffmpeg resources/samples
 	@echo "Installing Python dependencies..."
 	@-bin/pip install -r requirements.txt
 
 .Python:
 	@echo "Setting up virtual environment..."
 	@-virtualenv .
-
 	@-$(MAKE) deps
+
+resources/ffmpeg:
+	@echo "Downloading bundled FFmpeg..."
+	@-curl -L --progress-bar http://storage.googleapis.com/mm-bullpen/ffmpeg.tar.gz > resources/ffmpeg.tar.gz
+
+	@echo "Extracting bundled FFmpeg..."
+	@-cd resources/; \
+		tar -xf ffmpeg.tar.gz;
+
+resources/samples:
+	@echo "Extracting sample images..."
+	@-cd resources/; \
+		tar -xf samples.tar.gz;
 
 ## == cleaning routines == ##
 clean:

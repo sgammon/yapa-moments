@@ -51,11 +51,17 @@ class FFmpeg(base.MomentBase):
 
         :returns: Target :py:mod:`subprocess.Popen` object. '''
 
+    # generate string command
+    command = self._make_command()
+    self.logging.debug('Spawning FFmpeg with command: "%s".' % command)
+
     if not self.__target__:
       self.__target__ = subprocess.Popen(
         self._make_command(),
         bufsize=0  # don't buffer from ffmpeg
       )
+
+    self.logging.debug('FFmpeg running under native driver at PID %s.' % self.__target__.pid)
     return self.__target__
 
   @property
@@ -64,12 +70,15 @@ class FFmpeg(base.MomentBase):
     ''' Returns the default path to ``FFmpeg``, which is distributed along
         with this package by default. '''
 
-    return os.path.abspath(
+    _default_path = os.path.abspath(
       os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
         'resources',
         'ffmpeg'
       ))
+
+    self.logging.debug('Using FFmpeg at path: "%s".' % _default_path)
+    return _default_path
 
   def _make_command(self):
 
