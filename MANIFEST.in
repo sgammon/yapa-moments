@@ -1,0 +1,8 @@
+prune bin
+prune lib
+prune dist
+prune build
+prune include
+global-exclude .DS_Store
+include resources/ffmpeg
+include resources/samples.zip
