@@ -23,7 +23,7 @@ deps:
 	@-$(MAKE) deps
 
 test:
-	@-nosetests --verbose --with-coverage --cover-package=moments
+	@-nosetests --verbose --with-coverage --cover-package=moments test_moments
 
 build: .Python
 	@echo "Building Yapa-Moments..."

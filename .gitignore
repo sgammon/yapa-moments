@@ -1,0 +1,10 @@
+dist/
+build/
+.Python
+.DS_Store
+*.Python
+*.DS_Store
+moments.egg-info/*
+bin/*
+include/*
+lib/*
