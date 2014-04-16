@@ -8,3 +8,6 @@ moments.egg-info/*
 bin/*
 include/*
 lib/*
+resources/samples/*
+resources/ffmpeg
+resources/ffmpeg.tar.gz
