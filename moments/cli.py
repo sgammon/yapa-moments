@@ -8,6 +8,7 @@
 
 # stdlib
 import sys
+import pdb
 import logging
 import traceback
 
@@ -54,12 +55,11 @@ class Moment(cli.Tool):
 
       except Exception:
 
-        traceback.print_exception(*sys.exc_info())
-        if arguments.debug:
-          import pdb; pdb.set_trace()
-
-        logging.critical('Moment tool encountered a fatal error. Exiting.')
-        return 1
+        if arguments.debug: pdb.set_trace()
+        if not arguments.quiet:
+          traceback.print_exception(*sys.exc_info())
+          logging.critical('Moment tool encountered a fatal error. Exiting.')
+        return sys.exit(1)
 
 
 MomentTool = Moment  # alias to `MomentTool` to preserve "tool name"

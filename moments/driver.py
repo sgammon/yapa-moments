@@ -53,15 +53,14 @@ class FFmpeg(base.MomentBase):
 
     # generate string command
     command = self._make_command()
-    self.logging.debug('Spawning FFmpeg with command: "%s".' % command)
 
     if not self.__target__:
+      self.logging.debug('Spawning FFmpeg with command: "%s".' % ' '.join(command))
       self.__target__ = subprocess.Popen(
-        self._make_command(),
+        command,
         bufsize=0  # don't buffer from ffmpeg
       )
-
-    self.logging.debug('FFmpeg running under native driver at PID %s.' % self.__target__.pid)
+      self.logging.debug('FFmpeg running under native driver at PID %s.' % self.__target__.pid)
     return self.__target__
 
   @property
@@ -77,7 +76,6 @@ class FFmpeg(base.MomentBase):
         'ffmpeg'
       ))
 
-    self.logging.debug('Using FFmpeg at path: "%s".' % _default_path)
     return _default_path
 
   def _make_command(self):
@@ -87,17 +85,22 @@ class FFmpeg(base.MomentBase):
 
         :returns: ``self``, for easy chainability. '''
 
+    path = self._ffmpeg_path
+
+    if self.moment.options.debug:
+      self.logging.debug('Using FFmpeg at path: "%s".' % path)
+
     try:
-      os.stat(self._ffmpeg_path)
+      os.stat(path)
     except OSError as e:
       if self.moment.options.debug:
         traceback.print_exception(*sys.exc_info())
       self.logging.critical('Failed to find FFmpeg. Exiting.')
       raise RuntimeError('Cannot find `FFmpeg` executable.')
     else:
-      return [self._ffmpeg_path] + self.args + [
+      return [path] + self.args + ([
           (("--%s" % k) + (("=%s" % v) if v is not None else "")) for k, v in self.kwargs.iteritems()
-        ] if self.kwargs else []
+        ] if self.kwargs else [])
 
   ## == Command Flow == ##
   def _add_argument(self, *positional, **kwargs):

@@ -11,3 +11,5 @@ lib/*
 resources/samples/*
 resources/ffmpeg
 resources/ffmpeg.tar.gz
+*.pyc
+**.pyc
