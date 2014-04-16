@@ -47,7 +47,7 @@ resources/ffmpeg:
 resources/samples:
 	@echo "Extracting sample images..."
 	@-cd resources/; \
-		tar -xf samples.tar.gz;
+		tar -xvf samples.tar.gz;
 
 ## == cleaning routines == ##
 clean:
