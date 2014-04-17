@@ -38,5 +38,5 @@ setuptools.setup(name="moments",
       url="https://github.com/sgammon/yapa-moments",
       package_data={"moments": ["resources/{ffmpeg,s}"]},
       include_package_data=True,
-      install_requires=[i for i in _deps if not i.startswith('git')] + list(_CUSTOM_PKGS)
+      install_requires=[i for i in _deps if (i and not i.startswith('git'))] + list(_CUSTOM_PKGS)
 )
