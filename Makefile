@@ -15,7 +15,7 @@ build: .Python
 	@echo "Building Yapa-Moments..."
 	@-bin/python setup.py build
 
-package: build
+package: build sample
 	@echo "Making source distributions..."
 	@-bin/python setup.py sdist
 
