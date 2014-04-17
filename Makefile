@@ -22,6 +22,10 @@ package: build
 	@echo "Making binary/egg distributions..."
 	@-bin/python setup.py bdist_egg bdist_dumb
 
+sample: resources/samples
+	@echo "Generating sample video..."
+	python -m moments create --input "resources/samples/*.jpg" --audio resources/samples/haters.m4a --output sample.mp4 --size 700 --framerate 1 --loop --length 60
+
 install: package
 	@echo "Installing Yapa-Moments..."
 	@-bin/python setup.py install
